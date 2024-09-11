@@ -1,16 +1,19 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { surveyForm } from "./api";
-import { OfflineContext } from "../context_offline/offline_context";
+import { OfflineContext } from "../contextApi/offline_context";
+import { FormContext } from "../contextApi/selectelement_context";
 import useOnlineStatus from "../custom_hook/useOffline";
 
 const SurveyForm = () => {
+  const [isQuestion, setisQuestion] = useState(false);
   const isOnline = useOnlineStatus();
   const { addToOffline } = useContext(OfflineContext);
+  const { state, dispatch } = useContext(FormContext);
   const form = useForm({
     defaultValues: {
       sub_1_1: "",
@@ -86,6 +89,29 @@ const SurveyForm = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
+  // handling select form element
+
+  function handleSelectElement(e) {
+    if (e.target.value === "own vehicle") {
+      dispatch({ type: "SELECT_YES" });
+      setisQuestion(true);
+      console.log(state.showNoQuestion);
+    } else {
+      dispatch({ type: "SELECT_NO" });
+      console.log(state.showNoQuestion);
+    }
+  }
+
+  function handleSelectElementTwo(e) {
+    if (e.target.value === "yes") {
+      dispatch({ type: "SELECT_YES" });
+      setisQuestion(true);
+    } else {
+      dispatch({ type: "SELECT_NO" });
+      setisQuestion(true)
+    }
+  }
+
   return (
     <>
       <div className="main_body">
@@ -132,7 +158,6 @@ const SurveyForm = () => {
                 {...register("sub_1_3")}
               />
             </div>
-
 
             <div className="input-field col s12">
               <span>Executive Name </span>
@@ -227,38 +252,56 @@ const SurveyForm = () => {
             <div className="input-field col s12">
               <span>5. Is it own vehicle or rental/hire purchase?</span>
               <br />
-              <select name="sub_1_11" id="sub_1_11" style={{display: "block"}} {...register("sub_1_11")}>
+              <select
+                name="sub_1_11"
+                id="sub_1_11"
+                onInput={handleSelectElement}
+                style={{ display: "block" }}
+                {...register("sub_1_11")}
+              >
                 <option value="">Select your answer</option>
                 <option id="own vehicle" value="own vehicle">
-                Own vehicle
+                  Own vehicle
                 </option>
                 <option id="rental" value="rental">
-                Rental
+                  Rental
                 </option>
                 <option id="hire purchase" value="hire purchase">
-                Hire purchase
+                  Hire purchase
                 </option>
               </select>
             </div>
 
-            <div className="input-field col s12">
-              <span>6. If it is riders own vehicle - is it paid up in Cash or on Loan?</span>
-              <br />
-              <select name="sub_1_12" id="sub_1_12" style={{display: "block"}} {...register("sub_1_12")}>
-                <option value="">Select your answer</option>
-                <option id="cash" value="cash">
-                cash
-                </option>
-                <option id="loan" value="loan">
-                loan
-                </option>
-              </select>
-            </div>
+            {state.showNoQuestion && (
+              <div className="input-field col s12">
+                <span>
+                  6. If it is riders own vehicle - is it paid up in Cash or on
+                  Loan?
+                </span>
+                <br />
+                <select
+                  name="sub_1_12"
+                  id="sub_1_12"
+                  style={{ display: "block" }}
+                  {...register("sub_1_12")}
+                >
+                  <option value="">Select your answer</option>
+                  <option id="cash" value="cash">
+                    cash
+                  </option>
+                  <option id="loan" value="loan">
+                    loan
+                  </option>
+                </select>
+              </div>
+            )}
 
             <h1>Rider Feedback</h1>
 
             <div className="input-field col s12">
-              <span>1. What is your overal key feedback on RE Petrol & CNG</span>
+              <span>
+                1. What is your overal key feedback on RE Petrol & CNG
+              </span>
               <br />
               <input
                 id="sub_1_13"
@@ -270,7 +313,10 @@ const SurveyForm = () => {
             </div>
 
             <div className="input-field col s12">
-              <span>2. Petrol tank size 8 ltr ( 1 to 10, 10 means excellent, 1 means poor)</span>
+              <span>
+                2. Petrol tank size 8 ltr ( 1 to 10, 10 means excellent, 1 means
+                poor)
+              </span>
               <br />
               <select
                 name="sub_1_14"
@@ -312,7 +358,9 @@ const SurveyForm = () => {
               </select>
             </div>
             <div className="input-field col s12">
-              <span>3. CNG size 4KG ( 1 to 10, 10 means excellent, 1 means poor)</span>
+              <span>
+                3. CNG size 4KG ( 1 to 10, 10 means excellent, 1 means poor)
+              </span>
               <br />
               <select
                 name="sub_1_15"
@@ -397,9 +445,11 @@ const SurveyForm = () => {
               </select>
             </div>
 
-
             <div className="input-field col s12">
-              <span>5. Range performance ( means distance travel due to 8ltr petrol and CNG) ( 1 to 10, 10 means excellent, 1 means poor)</span>
+              <span>
+                5. Range performance ( means distance travel due to 8ltr petrol
+                and CNG) ( 1 to 10, 10 means excellent, 1 means poor)
+              </span>
               <br />
               <select
                 name="sub_1_17"
@@ -442,7 +492,9 @@ const SurveyForm = () => {
             </div>
 
             <div className="input-field col s12">
-              <span>6. Price offer( 1 to 10, 10 means excellent, 1 means poor)</span>
+              <span>
+                6. Price offer( 1 to 10, 10 means excellent, 1 means poor)
+              </span>
               <br />
               <select
                 name="sub_1_18"
@@ -492,6 +544,7 @@ const SurveyForm = () => {
               <select
                 name="sub_1_19"
                 id="sub_1_19"
+                onInput={handleSelectElementTwo}
                 style={{ display: "block" }}
                 {...register("sub_1_19")}
               >
@@ -502,33 +555,36 @@ const SurveyForm = () => {
                 <option id="no" value="no">
                   No
                 </option>
-
               </select>
             </div>
 
-            <div className="input-field col s12">
-              <span>8. Reason for Yes</span>
-              <br />
-              <input
-                id="sub_1_20"
-                name="sub_1_20"
-                placeholder="YES"
-                type="text"
-                {...register("sub_1_20")}
-              />
-            </div>
+            {state.showNoQuestion && isQuestion && (
+              <div className="input-field col s12">
+                <span>8. Reason for Yes</span>
+                <br />
+                <input
+                  id="sub_1_20"
+                  name="sub_1_20"
+                  placeholder="YES"
+                  type="text"
+                  {...register("sub_1_20")}
+                />
+              </div>
+            )}
 
-            <div className="input-field col s12">
-              <span>9. Reason for No</span>
-              <br />
-              <input
-                id="sub_1_21"
-                name="sub_1_21"
-                placeholder="NO"
-                type="text"
-                {...register("sub_1_21")}
-              />
-            </div>
+            {!state.showNoQuestion && isQuestion && (
+              <div className="input-field col s12">
+                <span>9. Reason for No</span>
+                <br />
+                <input
+                  id="sub_1_21"
+                  name="sub_1_21"
+                  placeholder="NO"
+                  type="text"
+                  {...register("sub_1_21")}
+                />
+              </div>
+            )}
 
             <h1>CONVERSIONS & LEADS</h1>
             <div className="input-field col s12">
@@ -547,7 +603,6 @@ const SurveyForm = () => {
                 <option id="no" value="no">
                   No
                 </option>
-
               </select>
             </div>
 
@@ -562,7 +617,6 @@ const SurveyForm = () => {
                 {...register("sub_1_23")}
               />
             </div>
-
 
             <div className="input-field col s12">
               <span>3. Hot leads (Yes (1-2 months) / NO)?</span>
@@ -580,7 +634,6 @@ const SurveyForm = () => {
                 <option id="no" value="no">
                   No
                 </option>
-
               </select>
             </div>
 

@@ -46,9 +46,9 @@ const IndexPage = () => {
             <p>
               <NavLink
                 to="fleet"
-                className="waves-effect waves-light green  btn-large w80"
+                className="waves-effect waves-light purple  btn-large w80"
               >
-                 FLEET OWNERS
+                FLEET OWNERS
               </NavLink>
             </p>
           </div>
@@ -58,9 +58,9 @@ const IndexPage = () => {
             <p>
               <NavLink
                 to="park"
-                className="waves-effect waves-light green  btn-large w80"
+                className="waves-effect waves-light  lime accent-4  btn-large w80"
               >
-                 PARK MAPPING
+                PARK MAPPING
               </NavLink>
             </p>
           </div>
@@ -70,9 +70,9 @@ const IndexPage = () => {
             <p>
               <NavLink
                 to="hotleads"
-                className="waves-effect waves-light green  btn-large w80"
+                className="waves-effect waves-light teal darken-3  btn-large w80"
               >
-                 HOTLEADS
+                HOTLEADS
               </NavLink>
             </p>
           </div>

@@ -1,14 +1,17 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { surveyForm } from "./api";
-import { OfflineContext } from "../context_offline/offline_context";
+import { OfflineContext } from "../contextApi/offline_context";
 import useOnlineStatus from "../custom_hook/useOffline";
+import { FormContext } from "../contextApi/selectelement_context";
 
 const ParkForm = () => {
+  const { state, dispatch } = useContext(FormContext);
+  const [isShowQuestion, setIsShowQuestion] = useState(false);
   const isOnline = useOnlineStatus();
   const { addToOffline } = useContext(OfflineContext);
   const form = useForm({
@@ -80,6 +83,16 @@ const ParkForm = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
+  function handleSelectElement(e) {
+    if (e.target.value === "yes") {
+      dispatch({ type: "SELECT_YES" });
+      setIsShowQuestion(true);
+    } else {
+      dispatch({ type: "SELECT_NO" });
+      setIsShowQuestion(true);
+    }
+  }
+
   return (
     <>
       <div className="main_body">
@@ -138,7 +151,6 @@ const ParkForm = () => {
               />
             </div>
 
-
             <div className="input-field col s12">
               <span>Taxi Rank/Park Name</span>
               <br />
@@ -180,11 +192,14 @@ const ParkForm = () => {
             {/* state management */}
 
             <div className="input-field col s12">
-              <span>1. Will You Recommend / Consider CNG for you or your friend?</span>
+              <span>
+                1. Will You Recommend / Consider CNG for you or your friend?
+              </span>
               <br />
               <select
                 name="sub_1_8"
                 id="sub_1_8"
+                onInput={handleSelectElement}
                 style={{ display: "block" }}
                 {...register("sub_1_8")}
               >
@@ -195,36 +210,38 @@ const ParkForm = () => {
                 <option id="no" value="no">
                   No
                 </option>
-
               </select>
             </div>
 
+            {state.showNoQuestion && isShowQuestion && (
+              <div className="input-field col s12">
+                <span>2. Reason for Yes</span>
+                <br />
+                <input
+                  id="sub_1_9"
+                  name="sub_1_9"
+                  title="YES"
+                  type="text"
+                  {...register("sub_1_9")}
+                />
+              </div>
+            )}
 
-            <div className="input-field col s12">
-              <span>2. Reason for Yes</span>
-              <br />
-              <input
-                id="sub_1_9"
-                name="sub_1_9"
-                title="YES"
-                type="text"
-                {...register("sub_1_9")}
-              />
-            </div>
+            {!state.showNoQuestion && isShowQuestion && (
+              <div className="input-field col s12">
+                <span>3. Reason for No</span>
+                <br />
+                <input
+                  id="sub_1_10"
+                  name="sub_1_10"
+                  title="NO"
+                  type="text"
+                  {...register("sub_1_10")}
+                />
+              </div>
+            )}
 
-            <div className="input-field col s12">
-              <span>3. Reason for No</span>
-              <br />
-              <input
-                id="sub_1_10"
-                name="sub_1_10"
-                title="NO"
-                type="text"
-                {...register("sub_1_10")}
-              />
-            </div>
-
-             <h1>Questionnaire</h1>
+            <h1>Questionnaire</h1>
 
             <div className="input-field col s12">
               <span>Number of Stage</span>
