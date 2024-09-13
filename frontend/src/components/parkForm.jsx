@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
-import { surveyForm } from "./api";
+import { parkForm } from "./api";
 import { OfflineContext } from "../contextApi/offline_context";
 import useOnlineStatus from "../custom_hook/useOffline";
 import { FormContext } from "../contextApi/selectelement_context";
@@ -41,9 +41,9 @@ const ParkForm = () => {
 
   const onSubmit = async (data) => {
     if (isOnline) {
-      console.log("online working");
       try {
-        const response = await surveyForm(data);
+        console.log(data);
+        const response = await parkForm(data);
         if (response) {
           const MySwal = withReactContent(Swal);
           MySwal.fire({
@@ -59,8 +59,6 @@ const ParkForm = () => {
         });
       }
     } else {
-      console.log("offline working");
-
       // addToOffline(data);
       // toastify
       toast.info("Failed to upload to the data !", {

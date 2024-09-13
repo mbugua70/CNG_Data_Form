@@ -19,33 +19,37 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const ba_name = formData.get("ba_name");
   const ba_phone = formData.get("ba_phone");
-  const ba_location = formData.get("ba_location");
-  console.log(ba_name, ba_location, ba_phone);
-  if (!ba_location || !ba_name || !ba_phone) {
+  const ba_region = formData.get("ba_region");
+  console.log(ba_name, ba_region, ba_phone);
+  if (!ba_region || !ba_name || !ba_phone) {
     return "Please fill all the required fields";
   }
 
-  if (!ba_location) {
+  if (!ba_region) {
     return "Please fill in the location field";
   }
   const formdata = new FormData();
   formdata.append("ba_name", ba_name);
-  formdata.append("ba_location", ba_location);
+  formdata.append("ba_region", ba_region);
   formdata.append("ba_phone", ba_phone);
   // const pathname = new URL(request.url).searchParams.get("redirectTo") || "/survey"
   try {
     const ba_name = formdata.get("ba_name");
     const ba_phone = formdata.get("ba_phone");
-    const ba_location = formdata.get("ba_location");
+    const ba_region = formdata.get("ba_region");
 
-    const workout = { ba_name, ba_phone, ba_location };
+    const workout = { ba_name, ba_phone, ba_region };
 
     localStorage.setItem("Auth", JSON.stringify({ user: workout }));
 
-    const data = await loginUser(workout);
-    if (data) {
-      const loginData = JSON.stringify(data);
-      localStorage.setItem("Auth", loginData);
+    const storeOne = localStorage.getItem("Auth");
+    const storeTwo = JSON.parse(storeOne);
+    const isUser = storeTwo.user;
+
+    // const data = await loginUser(workout);
+    if (isUser) {
+      // const loginData = JSON.stringify(data);
+      // localStorage.setItem("Auth", loginData);
       setTimeout(() => {
         const MySwal = withReactContent(Swal);
         MySwal.fire({
@@ -55,10 +59,10 @@ export const action = async ({ request }) => {
       }, 2000);
     }
 
-    return redirect("/survey");
+    return redirect("/");
   } catch (err) {
     console.error("err", err.syntaxError);
-    return err.message;
+    return "Failed to register";
   }
 };
 
@@ -151,12 +155,12 @@ const RegistrationPage = () => {
                 <span>Region</span>
                 <br />
                 <input
-                  id="ba_location"
-                  name="ba_location"
+                  id="ba_region"
+                  name="ba_region"
                   placeholder="Location"
                   type="text"
                   defaultValue={
-                    storeBaTwo === null ? "" : storeBaTwo.user.ba_location
+                    storeBaTwo === null ? "" : storeBaTwo.user.ba_region
                   }
                 />
               </div>

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
-import { surveyForm } from "./api";
+import { summaryForm } from "./api";
 import { OfflineContext } from "../contextApi/offline_context";
 import useOnlineStatus from "../custom_hook/useOffline";
 
@@ -33,7 +33,7 @@ const DaySummaryForm = () => {
     if (isOnline) {
       console.log("online working");
       try {
-        const response = await surveyForm(data);
+        const response = await summaryForm(data);
         if (response) {
           const MySwal = withReactContent(Swal);
           MySwal.fire({
@@ -181,7 +181,6 @@ const DaySummaryForm = () => {
               />
             </div>
 
-
             <div className="input-field col s12">
               <span>6. Feedback from rider/FO -3 expectation?</span>
               <br />
@@ -217,7 +216,6 @@ const DaySummaryForm = () => {
                 {...register("sub_1_11")}
               />
             </div>
-
 
             <div className="input-field col s12 center_it">
               <button

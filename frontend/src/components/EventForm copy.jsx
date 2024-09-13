@@ -31,13 +31,13 @@ export default function EventForm({ inputData, onSubmit, children }) {
         defaultValue={inputData?.ba_phone ?? ""}
       />
 
-      <label htmlFor="ba_location">Location</label>
+      <label htmlFor="ba_region">Location</label>
       <input
         type="text"
-        name="ba_location"
-        id="ba_location"
+        name="ba_region"
+        id="ba_region"
         placeholder="Enter location"
-        defaultValue={inputData?.ba_location ?? ""}
+        defaultValue={inputData?.ba_regioin ?? ""}
       />
 
       <p className="form-actions">{children}</p>

@@ -11,17 +11,16 @@ const UserHeader = () =>{
           <div className=" topmenu left_menu"></div>
           <div className=" topmenu centered_menu">
             {pathname === "/registration" ? "Registration" : ""}
-            {pathname === "/park" ? "PARK MAPPING" : ""}
+            {pathname.includes("/park") ? "PARK MAPPING" : ""}
             {pathname === "/park/edit" ? "PARK MAPPING" : ""}
-          {pathname === "/fleet" ? "FLEET OWNERS" : ""}
-          {pathname === "/fleet/edit" ? "FLEET OWNERS" : ""}
-          {pathname === "/rides" ? "TEST RIDES" : ""}
-          {pathname === "/rides/edit" ? "TEST RIDES" : ""}
-          {pathname === "/hotleads" ? "HOTLEADS REPORT" : ""}
-          {pathname === "/hotleads/edit" ? "HOTLEADS REPORT" : ""}
-          {pathname  === "/summary" ? "Day Summary": ""}
-          {pathname === "/summary/EDIT" ? "DAY SUMMMARY" : ""}
-
+            {pathname.includes("/fleet") ? "FLEET OWNERS" : ""}
+            {pathname === "/fleet/edit" ? "FLEET OWNERS" : ""}
+            {pathname.includes("/rides") ? "TEST RIDES" : ""}
+            {pathname === "/rides/edit" ? "TEST RIDES" : ""}
+            {pathname.includes("/hotleads") ? "HOTLEADS REPORT" : ""}
+            {pathname === "/hotleads/edit" ? "HOTLEADS REPORT" : ""}
+            {pathname.includes("/summary") ? "Day Summary" : ""}
+            {pathname === "/summary/EDIT" ? "DAY SUMMMARY" : ""}
           </div>
           <div className=" topmenu right_menu">
             <Link href="index.html">

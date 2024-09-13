@@ -97,7 +97,7 @@ export default function EditEvent() {
   if (data) {
     content = (
       <EventForm inputData={data} onSubmit={handleSubmit}>
-        <Link to="../" className="button-text">
+        <Link to=".." className="button-text">
           Cancel
         </Link>
         <button type="submit" className="button">

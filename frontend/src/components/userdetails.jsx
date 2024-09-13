@@ -74,7 +74,7 @@ const UserDetails = ({ userData }) => {
               <span className="material-symbols-outlined"> home_pin </span>
               <span className="user_location">Location</span>
             </div>
-            <span className="user_locations users_input" id="ba_location">
+            <span className="user_locations users_input" id="ba_region">
               {userData === null ? (
                 <div
                   className="preloader-wrapper small active preloader_element"
@@ -93,7 +93,7 @@ const UserDetails = ({ userData }) => {
                   </div>
                 </div>
               ) : (
-                userData.ba_location
+                userData.ba_region
               )}
             </span>
           </div>

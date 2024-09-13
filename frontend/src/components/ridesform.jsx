@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
-import { surveyForm } from "./api";
+import { testridesForm } from "./api";
 import { OfflineContext } from "../contextApi/offline_context";
 import { FormContext } from "../contextApi/selectelement_context";
 import useOnlineStatus from "../custom_hook/useOffline";
@@ -46,41 +46,41 @@ const SurveyForm = () => {
   const { isSubmitSuccessful, isSubmitting } = formState;
 
   const onSubmit = async (data) => {
-    if (isOnline) {
-      console.log("online working");
-      try {
-        const response = await surveyForm(data);
-        if (response) {
-          const MySwal = withReactContent(Swal);
-          MySwal.fire({
-            html: <i>Your data have been submitted successfully!</i>,
-            icon: "success",
-          });
-        }
-      } catch (err) {
+    // if (isOnline) {
+    // console.log("online working");
+    try {
+      const response = await testridesForm(data);
+      if (response) {
         const MySwal = withReactContent(Swal);
         MySwal.fire({
-          html: <i>{err.message}</i>,
-          icon: "error",
+          html: <i>Your data have been submitted successfully!</i>,
+          icon: "success",
         });
       }
-    } else {
-      console.log("offline working");
-
-      // addToOffline(data);
-      // toastify
-      toast.info("Failed to upload to the data !", {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
+    } catch (err) {
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        html: <i>{err.message}</i>,
+        icon: "error",
       });
     }
+    // } else {
+    // console.log("offline working");
+
+    // addToOffline(data);
+    // toastify
+    // toast.info("Failed to upload to the data !", {
+    //   position: "bottom-center",
+    //   autoClose: 5000,
+    //   hideProgressBar: true,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    //   transition: Slide,
+    // });
+    // }
   };
 
   React.useEffect(() => {
@@ -108,7 +108,7 @@ const SurveyForm = () => {
       setisQuestion(true);
     } else {
       dispatch({ type: "SELECT_NO" });
-      setisQuestion(true)
+      setisQuestion(true);
     }
   }
 

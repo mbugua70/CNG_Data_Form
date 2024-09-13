@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
-import { surveyForm } from "./api";
+import { hotleadsForm } from "./api";
 import { OfflineContext } from "../contextApi/offline_context";
 import useOnlineStatus from "../custom_hook/useOffline";
 
@@ -30,7 +30,7 @@ const HotLeadForm = () => {
       sub_1_16: "",
       sub_1_17: "",
       sub_1_18: "",
-      sub_1_19: ""
+      sub_1_19: "",
     },
   });
 
@@ -38,41 +38,41 @@ const HotLeadForm = () => {
   const { isSubmitSuccessful, isSubmitting } = formState;
 
   const onSubmit = async (data) => {
-    if (isOnline) {
-      console.log("online working");
-      try {
-        const response = await surveyForm(data);
-        if (response) {
-          const MySwal = withReactContent(Swal);
-          MySwal.fire({
-            html: <i>Your data have been submitted successfully!</i>,
-            icon: "success",
-          });
-        }
-      } catch (err) {
+    // if (isOnline) {
+    // console.log("online working");
+    try {
+      const response = await hotleadsForm(data);
+      if (response) {
         const MySwal = withReactContent(Swal);
         MySwal.fire({
-          html: <i>{err.message}</i>,
-          icon: "error",
+          html: <i>Your data have been submitted successfully!</i>,
+          icon: "success",
         });
       }
-    } else {
-      console.log("offline working");
-
-      // addToOffline(data);
-      // toastify
-      toast.info("Failed to upload to the data !", {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
+    } catch (err) {
+      const MySwal = withReactContent(Swal);
+      MySwal.fire({
+        html: <i>{err.message}</i>,
+        icon: "error",
       });
     }
+    // } else {
+    // console.log("offline working");
+
+    // addToOffline(data);
+    // toastify
+    // toast.info("Failed to upload to the data !", {
+    //   position: "bottom-center",
+    //   autoClose: 5000,
+    //   hideProgressBar: true,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    //   transition: Slide,
+    // });
+    // }
   };
 
   React.useEffect(() => {
@@ -217,7 +217,11 @@ const HotLeadForm = () => {
             <div className="input-field col s12">
               <span>7. Buying mode (Cash / Loan)</span>
               <br />
-              <select name="sub_1_11" id="sub_1_11" style={{display: "block"}}>
+              <select
+                name="sub_1_11"
+                id="sub_1_11"
+                style={{ display: "block" }}
+              >
                 <option value="">Select your answer</option>
                 <option id="cash" value="cash">
                   Cash
@@ -276,7 +280,6 @@ const HotLeadForm = () => {
               />
             </div>
 
-
             <div className="input-field col s12">
               <span>12. Feedback - Follow up 2</span>
               <br />
@@ -288,7 +291,6 @@ const HotLeadForm = () => {
                 {...register("sub_1_16")}
               />
             </div>
-
 
             <div className="input-field col s12">
               <span>13. Date of Follow up 3</span>
@@ -315,9 +317,16 @@ const HotLeadForm = () => {
             </div>
 
             <div className="input-field col s12">
-              <span>15. Final Closure Status(Converted / Postponed / Purchased other vehicle)</span>
+              <span>
+                15. Final Closure Status(Converted / Postponed / Purchased other
+                vehicle)
+              </span>
               <br />
-              <select name="sub_1_19" id="sub_1_19" style={{display: "block"}}>
+              <select
+                name="sub_1_19"
+                id="sub_1_19"
+                style={{ display: "block" }}
+              >
                 <option value="">Select your answer</option>
                 <option id="converted" value="converted">
                   Converted

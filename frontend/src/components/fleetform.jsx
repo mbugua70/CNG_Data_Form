@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { ToastContainer, toast, Slide } from "react-toastify";
-import { surveyForm } from "./api";
+import { fleetForm } from "./api";
 import { OfflineContext } from "../contextApi/offline_context";
 import useOnlineStatus from "../custom_hook/useOffline";
 
@@ -30,7 +30,8 @@ const FleetForm = () => {
     if (isOnline) {
       console.log("online working");
       try {
-        const response = await surveyForm(data);
+        const response = await fleetForm(data);
+        console.log(response);
         if (response) {
           const MySwal = withReactContent(Swal);
           MySwal.fire({
@@ -39,6 +40,7 @@ const FleetForm = () => {
           });
         }
       } catch (err) {
+        console.log(err);
         const MySwal = withReactContent(Swal);
         MySwal.fire({
           html: <i>{err.message}</i>,
@@ -48,7 +50,6 @@ const FleetForm = () => {
     } else {
       console.log("offline working");
 
-      // addToOffline(data);
       // toastify
       toast.info("Failed to upload to the data !", {
         position: "bottom-center",
@@ -165,8 +166,6 @@ const FleetForm = () => {
                 {...register("sub_1_7")}
               />
             </div>
-
-
 
             <div className="input-field col s12 center_it">
               <button
